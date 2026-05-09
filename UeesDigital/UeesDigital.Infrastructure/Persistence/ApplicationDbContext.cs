@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using UeesDigital.Domain.Entities;
-using UUeesDigitalEESID.Infrastructure.Identity;
+using UeesDigital.Infrastructure.Identity;
 
 namespace UeesDigital.Infrastructure.Persistence
 {
@@ -12,7 +12,6 @@ namespace UeesDigital.Infrastructure.Persistence
         public DbSet<Facultad> Facultades { get; set; }
         public DbSet<Carrera> Carreras { get; set; }
         public DbSet<Estudiante> Estudiantes { get; set; }
-        public DbSet<TipoDeTramite> TiposDeTramite { get; set; }
         public DbSet<FechaDisponible> FechasDisponibles { get; set; }
         public DbSet<HorarioDisponible> HorariosDisponibles { get; set; }
         public DbSet<Tramite> Tramites { get; set; }
@@ -25,13 +24,22 @@ namespace UeesDigital.Infrastructure.Persistence
                 .HasIndex(f => f.Codigo).IsUnique();
 
             builder.Entity<Estudiante>()
-                .HasIndex(e => e.CIF).IsUnique();
+                .Property(e => e.Id).HasDefaultValueSql("NEWID()");
+
+            builder.Entity<Tramite>()
+                .Property(t => t.IdTramite).HasDefaultValueSql("NEWID()");
 
             builder.Entity<Tramite>()
                 .HasIndex(t => t.CodigoConfirmacion).IsUnique();
 
             builder.Entity<Tramite>()
-                .Property(t => t.Estado).HasDefaultValue("Pendiente");
+                .Property(t => t.Estado)
+                .HasConversion<string>()
+                .HasDefaultValue(EstadoTramite.Pendiente);
+
+            builder.Entity<Tramite>()
+                .Property(t => t.TipoTramite)
+                .HasConversion<string>();
 
             builder.Entity<Tramite>()
                 .Property(t => t.FechaRegistro).HasDefaultValueSql("GETDATE()");
@@ -53,11 +61,6 @@ namespace UeesDigital.Infrastructure.Persistence
                 .HasOne(h => h.FechaDisponible)
                 .WithMany(f => f.Horarios)
                 .HasForeignKey(h => h.IdFechaDisponible);
-
-            builder.Entity<Tramite>()
-                .HasOne(t => t.TipoDeTramite)
-                .WithMany(tt => tt.Tramites)
-                .HasForeignKey(t => t.IdTipoDeTramite);
 
             builder.Entity<Tramite>()
                 .HasOne(t => t.Estudiante)

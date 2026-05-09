@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\UeesDigital.Domain\UeesDigital.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

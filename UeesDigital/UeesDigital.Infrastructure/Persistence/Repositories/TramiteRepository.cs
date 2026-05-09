@@ -12,17 +12,15 @@ namespace UeesDigital.Infrastructure.Persistence.Repositories
 
         public async Task<IEnumerable<Tramite>> GetAllAsync() =>
             await _context.Tramites
-                .Include(t => t.TipoDeTramite)
                 .Include(t => t.Estudiante).ThenInclude(e => e.Carrera).ThenInclude(c => c.Facultad)
                 .Include(t => t.Horario).ThenInclude(h => h.FechaDisponible)
                 .ToListAsync();
 
         public async Task<Tramite?> GetByIdAsync(int id) =>
             await _context.Tramites
-                .Include(t => t.TipoDeTramite)
                 .Include(t => t.Estudiante)
                 .Include(t => t.Horario).ThenInclude(h => h.FechaDisponible)
-                .FirstOrDefaultAsync(t => t.IdTramite == id);
+                .FirstOrDefaultAsync(t => t.IdTramite == Guid.Parse(id.ToString()));
 
         public async Task<Tramite> CreateAsync(Tramite tramite)
         {
@@ -38,7 +36,7 @@ namespace UeesDigital.Infrastructure.Persistence.Repositories
             var existing = await _context.Tramites.FindAsync(tramite.IdTramite);
             if (existing == null) return null;
             existing.Estado = tramite.Estado;
-            existing.IdTipoDeTramite = tramite.IdTipoDeTramite;
+            existing.TipoTramite = tramite.TipoTramite;
             existing.IdHorario = tramite.IdHorario;
             await _context.SaveChangesAsync();
             return existing;
@@ -46,9 +44,10 @@ namespace UeesDigital.Infrastructure.Persistence.Repositories
 
         public async Task<bool> DeleteAsync(int id)
         {
-            var tramite = await _context.Tramites.FindAsync(id);
+            var tramite = await _context.Tramites
+                .FirstOrDefaultAsync(t => t.IdTramite == Guid.Parse(id.ToString()));
             if (tramite == null) return false;
-            tramite.Estado = "Cancelado";
+            tramite.Estado = EstadoTramite.Cancelado;
             return await _context.SaveChangesAsync() >= 1;
         }
     }

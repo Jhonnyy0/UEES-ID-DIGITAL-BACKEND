@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using UeesDigital.Domain.Interfaces;
 
-namespace UEESID.Infrastructure.Security
+namespace UeesDigital.Infrastructure.Security
 {
     public class JwtService : IJwtService
     {
