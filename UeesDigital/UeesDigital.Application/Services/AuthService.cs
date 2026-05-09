@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UeesDigital.Domain.Entities;
+using UeesDigital.Domain.Interfaces;
 
 namespace UeesDigital.Application.Services
 {
@@ -15,11 +17,10 @@ namespace UeesDigital.Application.Services
             _jwtService = jwtService;
         }
 
-        public async Task<Usuario> RegisterUser(Usuario usuario)
+        public async Task<Estudiante> RegisterUser(Estudiante estudiante)
         {
-            await _userRepository.CreateUser(usuario);
-
-            return usuario;
+            await _userRepository.CreateUser(estudiante);
+            return estudiante;
         }
 
         public async Task<String> Login(string email, string password, bool remember)
@@ -40,7 +41,7 @@ namespace UeesDigital.Application.Services
 
             var roles = await _userRepository.GetUserRoles(email);
 
-            return _jwtService.GenerateToken(usuario, roles);
+            return _jwtService.GenerateToken(usuario.Id.ToString(), usuario.Email, roles);
         }
     }
 }

@@ -5,7 +5,7 @@ using UeesDigital.Domain.Entities;
 
 namespace UeesDigital.Domain.Interfaces
 {
-    public interface IHorarioDisponibleRepository
+    public interface IHorarioDisponibleRepository : IBaseRepository<HorarioDisponible> 
     {
 
         Task<IEnumerable<HorarioDisponible>> GetDisponiblesByFechaAsync(int idFecha);

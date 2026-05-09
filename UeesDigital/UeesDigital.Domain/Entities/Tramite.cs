@@ -1,7 +1,10 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
 namespace UeesDigital.Domain.Entities
 {
-    public class Tramite
+    public class Tramite : BaseEntity
     {
         public Guid IdTramite { get; set; }
         public int IdHorario { get; set; }

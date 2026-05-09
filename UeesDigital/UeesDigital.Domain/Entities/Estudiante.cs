@@ -1,4 +1,9 @@
-﻿namespace UeesDigital.Domain.Entities{
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace UeesDigital.Domain.Entities
+{
     public  class Estudiante
     {
         public Guid Id { get; set; }

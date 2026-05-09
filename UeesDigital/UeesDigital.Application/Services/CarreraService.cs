@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
+using UeesDigital.Domain.Entities;
+using UeesDigital.Domain.Interfaces;
 
 namespace UeesDigital.Application.Services
 {
@@ -31,7 +33,7 @@ namespace UeesDigital.Application.Services
 
         public async Task<Carrera?> FindByIdAsync(int id)
         {
-            return await _carreraRepository.FindFirstOrDefaultAsync(c => c.Id == id, c => c.Estudiante);
+            return await _carreraRepository.FindFirstOrDefaultAsync(c => c.IdCarrera == id, c => c.Estudiantes);
         }
 
         public async Task<List<Carrera>> GetAll(int take, int page, string search)

@@ -5,7 +5,7 @@ using UeesDigital.Domain.Entities;
 
 namespace UeesDigital.Domain.Interfaces
 {
-    public interface IFechaDisponibleRepository
+    public interface IFechaDisponibleRepository : IBaseRepository<FechaDisponible>
     {
         Task<IEnumerable<FechaDisponible>> GetActivasAsync();
     }

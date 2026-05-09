@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using UeesDigital.Domain.Entities;
+using UeesDigital.Domain.Interfaces;
 
 namespace UeesDigital.Application.Services
 {
@@ -30,7 +32,8 @@ namespace UeesDigital.Application.Services
 
         public async Task<FechaDisponible?> FindByIdAsync(int id)
         {
-            return await _fechaDisponibleRepository.FindFirstOrDefaultAsync(f => f.Id == id);
+            return await _fechaDisponibleRepository.FindFirstOrDefaultAsync(f => f.IdFechaDisponible == id);
+
         }
 
         public async Task<List<FechaDisponible>> GetAll(int take, int page, string search)

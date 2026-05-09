@@ -4,7 +4,7 @@ using System.Text;
 
 namespace UeesDigital.Domain.Entities
 {
-    public class Carrera
+    public class Carrera : BaseEntity
     {
         public int IdCarrera { get; set; }
         public int IdFacultad { get; set; }

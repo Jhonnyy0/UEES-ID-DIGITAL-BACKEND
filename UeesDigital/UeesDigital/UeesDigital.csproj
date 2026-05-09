@@ -10,4 +10,14 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\UeesDigital.Application\UeesDigital.Application.csproj" />
+    <ProjectReference Include="..\UeesDigital.Domain\UeesDigital.Domain.csproj" />
+    <ProjectReference Include="..\UeesDigital.Infrastructure\UeesDigital.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>

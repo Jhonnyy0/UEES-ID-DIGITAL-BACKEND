@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
+using UeesDigital.Domain.Entities;
+using UeesDigital.Domain.Interfaces;
 
 namespace UeesDigital.Application.Services
 {
@@ -31,7 +33,7 @@ namespace UeesDigital.Application.Services
 
         public async Task<HorarioDisponible?> FindByIdAsync(int id)
         {
-            return await _horarioDisponibleRepository.FindFirstOrDefaultAsync(h => h.Id == id);
+            return await _horarioDisponibleRepository.FindFirstOrDefaultAsync(h => h.IdHorario == id);
         }
 
         public async Task<List<HorarioDisponible>> GetAll(int take, int page, string search)

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace UeesDigital.Domain.Entities
 {
-    public class HorarioDisponible
+    public class HorarioDisponible : BaseEntity
     {
         public int IdHorario { get; set; }
         public int IdFechaDisponible { get; set; }

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
-
+using UeesDigital.Domain.Entities;
+using UeesDigital.Domain.Interfaces;
+ 
 namespace UeesDigital.Application.Services
 {
     public class TramiteService
@@ -31,7 +33,7 @@ namespace UeesDigital.Application.Services
 
         public async Task<Tramite?> FindByIdAsync(int id)
         {
-            return await _tramiteRepository.FindFirstOrDefaultAsync(t => t.Id == id);
+            return await _tramiteRepository.FindFirstOrDefaultAsync(t => t.IdTramite == Guid.Parse(id.ToString()));
         }
 
         public async Task<List<Tramite>> GetAll(int take, int page, string search)

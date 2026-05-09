@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using UeesDigital.Domain.Entities;
 using UeesDigital.Domain.Interfaces;
 using UeesDigital.Infrastructure.Persistence;
@@ -16,13 +17,13 @@ namespace UeesDigital.Infrastructure.Persistence.Repositories
                 .Include(t => t.Horario).ThenInclude(h => h.FechaDisponible)
                 .ToListAsync();
 
-        public async Task<Tramite?> GetByIdAsync(int id) =>
+        public async Task<Tramite?> GetByIdAsync(Guid id) =>
             await _context.Tramites
                 .Include(t => t.Estudiante)
                 .Include(t => t.Horario).ThenInclude(h => h.FechaDisponible)
-                .FirstOrDefaultAsync(t => t.IdTramite == Guid.Parse(id.ToString()));
+                .FirstOrDefaultAsync(t => t.IdTramite == id);
 
-        public async Task<Tramite> CreateAsync(Tramite tramite)
+        public async Task<Tramite> AddAsync(Tramite tramite)
         {
             tramite.FechaRegistro = DateTime.Now;
             tramite.CodigoConfirmacion = Guid.NewGuid().ToString("N")[..10].ToUpper();
@@ -31,10 +32,10 @@ namespace UeesDigital.Infrastructure.Persistence.Repositories
             return tramite;
         }
 
-        public async Task<Tramite?> UpdateAsync(Tramite tramite)
+        public async Task<Tramite> Update(Tramite tramite)
         {
             var existing = await _context.Tramites.FindAsync(tramite.IdTramite);
-            if (existing == null) return null;
+            if (existing == null) return tramite;
             existing.Estado = tramite.Estado;
             existing.TipoTramite = tramite.TipoTramite;
             existing.IdHorario = tramite.IdHorario;
@@ -42,13 +43,25 @@ namespace UeesDigital.Infrastructure.Persistence.Repositories
             return existing;
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> Delete(int id) => false;
+
+        public async Task<Tramite?> FindFirstOrDefaultAsync(Expression<Func<Tramite, bool>> predicate, params Expression<Func<Tramite, object>>[] includes)
         {
-            var tramite = await _context.Tramites
-                .FirstOrDefaultAsync(t => t.IdTramite == Guid.Parse(id.ToString()));
-            if (tramite == null) return false;
-            tramite.Estado = EstadoTramite.Cancelado;
-            return await _context.SaveChangesAsync() >= 1;
+            var query = _context.Tramites.AsQueryable();
+            foreach (var include in includes)
+                query = query.Include(include);
+            return await query.FirstOrDefaultAsync(predicate);
+        }
+
+        public async Task<IEnumerable<Tramite>> GetAll(Expression<Func<Tramite, bool>> predicate, int take, int page, string search)
+        {
+            return await _context.Tramites
+                .Include(t => t.Estudiante)
+                .Include(t => t.Horario)
+                .Where(predicate)
+                .Skip((page - 1) * take)
+                .Take(take)
+                .ToListAsync();
         }
     }
 }

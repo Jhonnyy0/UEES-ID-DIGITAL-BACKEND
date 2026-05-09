@@ -4,7 +4,7 @@ using System.Text;
 
 namespace UeesDigital.Domain.Entities
 {
-    public class FechaDisponible
+    public class FechaDisponible : BaseEntity
     {
         public int IdFechaDisponible { get; set; }
         public DateTime Fecha { get; set; }
