@@ -1,0 +1,6 @@
+@UeesDigital_HostAddress = http://localhost:5136
+
+GET {{UeesDigital_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

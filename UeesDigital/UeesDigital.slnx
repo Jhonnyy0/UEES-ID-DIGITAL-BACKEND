@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="UeesDigital.Application/UeesDigital.Application.csproj" />
+  <Project Path="UeesDigital.Domain/UeesDigital.Domain.csproj" />
+  <Project Path="UeesDigital.Infrastructure/UeesDigital.Infrastructure.csproj" />
+  <Project Path="UeesDigital/UeesDigital.csproj" />
+</Solution>
