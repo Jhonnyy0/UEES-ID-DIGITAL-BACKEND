@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using UeesDigital.Domain.Entities;
 using UeesDigital.Domain.Interfaces;
@@ -35,7 +35,7 @@ namespace UeesDigital.Infrastructure.Persistence.Repositories
 
         public async Task<Carrera?> FindFirstOrDefaultAsync(Expression<Func<Carrera, bool>> predicate, params Expression<Func<Carrera, object>>[] includes)
         {
-            var query = _context.Carreras.AsQueryable();
+            var query = _context.Carreras.Include(c => c.Facultad).AsQueryable(); // ← siempre incluye Facultad
             foreach (var include in includes)
                 query = query.Include(include);
             return await query.FirstOrDefaultAsync(predicate);
@@ -45,6 +45,7 @@ namespace UeesDigital.Infrastructure.Persistence.Repositories
         {
             return await _context.Carreras
                 .Include(c => c.Facultad)
+                .Include(c => c.Estudiantes)
                 .Where(predicate)
                 .Where(c => string.IsNullOrEmpty(search) || c.Nombre.Contains(search))
                 .Skip((page - 1) * take)

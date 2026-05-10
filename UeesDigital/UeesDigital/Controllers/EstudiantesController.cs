@@ -55,7 +55,6 @@ public class EstudiantesController : ControllerBase
             Email     = request.Email.Trim(),
             Carnet    = request.Carnet,
             IdCarrera = request.IdCarrera,
-            Password  = string.Empty 
         };
 
         var created = await _estudianteRepository.CreateAsync(estudiante);

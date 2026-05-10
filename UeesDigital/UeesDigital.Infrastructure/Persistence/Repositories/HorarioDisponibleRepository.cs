@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using UeesDigital.Domain.Entities;
 using UeesDigital.Domain.Interfaces;
@@ -35,7 +35,7 @@ namespace UeesDigital.Infrastructure.Persistence.Repositories
 
         public async Task<HorarioDisponible?> FindFirstOrDefaultAsync(Expression<Func<HorarioDisponible, bool>> predicate, params Expression<Func<HorarioDisponible, object>>[] includes)
         {
-            var query = _context.HorariosDisponibles.AsQueryable();
+            var query = _context.HorariosDisponibles.Include(h => h.FechaDisponible).AsQueryable();
             foreach (var include in includes)
                 query = query.Include(include);
             return await query.FirstOrDefaultAsync(predicate);
@@ -51,12 +51,17 @@ namespace UeesDigital.Infrastructure.Persistence.Repositories
                 .ToListAsync();
         }
 
+        // ← Ahora incluye FechaDisponible
         public async Task<IEnumerable<HorarioDisponible>> GetDisponiblesByFechaAsync(int idFecha) =>
             await _context.HorariosDisponibles
+                .Include(h => h.FechaDisponible)
                 .Where(h => h.IdFechaDisponible == idFecha && h.Activo && h.CuposOcupados < h.CuposMaximos)
                 .ToListAsync();
 
+        // ← Ahora incluye FechaDisponible
         public async Task<HorarioDisponible?> GetByIdAsync(int id) =>
-            await _context.HorariosDisponibles.FindAsync(id);
+            await _context.HorariosDisponibles
+                .Include(h => h.FechaDisponible)
+                .FirstOrDefaultAsync(h => h.IdHorario == id);
     }
 }
