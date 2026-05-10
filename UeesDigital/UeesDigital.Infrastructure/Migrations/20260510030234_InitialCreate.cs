@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace UeesDigital.Infrastructure.Migrations
 {
     /// <inheritdoc />
@@ -290,6 +292,45 @@ namespace UeesDigital.Infrastructure.Migrations
                         principalTable: "HorariosDisponibles",
                         principalColumn: "IdHorario",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Facultades",
+                columns: new[] { "IdFacultad", "Codigo", "Nombre" },
+                values: new object[,]
+                {
+                    { 1, "FI", "Facultad de Ingeniería" },
+                    { 2, "FCE", "Facultad de Ciencias Económicas" },
+                    { 3, "FCJ", "Facultad de Ciencias Jurídicas" },
+                    { 4, "FCS", "Facultad de Ciencias Sociales" },
+                    { 5, "FCSA", "Facultad de Ciencias de la Salud" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Carreras",
+                columns: new[] { "IdCarrera", "CreatedAt", "Id", "IdFacultad", "IsDelete", "Nombre" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0001-0000-0000-000000000000"), 1, false, "Ingeniería en Desarrollo de Software y Ciencia de Datos" },
+                    { 2, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0002-0000-0000-000000000000"), 1, false, "Ingeniería en Tecnologías Emergentes y Robótica" },
+                    { 3, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0003-0000-0000-000000000000"), 1, false, "Técnico en Ciberseguridad" },
+                    { 4, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0004-0000-0000-000000000000"), 2, false, "Licenciatura en Administración de Empresas" },
+                    { 5, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0005-0000-0000-000000000000"), 2, false, "Licenciatura en Marketing" },
+                    { 6, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0006-0000-0000-000000000000"), 2, false, "Técnico en Marketing Digital" },
+                    { 7, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0007-0000-0000-000000000000"), 2, false, "Licenciatura en Relaciones Públicas con especialidad en Marketing" },
+                    { 8, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0008-0000-0000-000000000000"), 3, false, "Licenciatura en Ciencias Jurídicas" },
+                    { 9, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0009-0000-0000-000000000000"), 3, false, "Licenciatura en Relaciones y Negocios Internacionales" },
+                    { 10, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0010-0000-0000-000000000000"), 4, false, "Licenciatura en Psicología" },
+                    { 11, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0011-0000-0000-000000000000"), 4, false, "Licenciatura en Lenguas Modernas en Inglés y Francés" },
+                    { 12, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0012-0000-0000-000000000000"), 4, false, "Licenciatura en Teología" },
+                    { 13, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0013-0000-0000-000000000000"), 4, false, "Licenciatura en Traducción e Interpretación del Idioma Inglés" },
+                    { 14, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0014-0000-0000-000000000000"), 4, false, "Profesorado y Licenciatura en Educación Inicial y Parvularia" },
+                    { 15, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0015-0000-0000-000000000000"), 5, false, "Doctorado en Medicina" },
+                    { 16, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0016-0000-0000-000000000000"), 5, false, "Licenciatura en Enfermería" },
+                    { 17, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0017-0000-0000-000000000000"), 5, false, "Licenciatura en Nutrición y Dietética" },
+                    { 18, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0018-0000-0000-000000000000"), 5, false, "Técnico en Enfermería" },
+                    { 19, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0019-0000-0000-000000000000"), 5, false, "Doctorado en Cirugía Dental" },
+                    { 20, new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new Guid("aaaaaaaa-0020-0000-0000-000000000000"), 5, false, "Técnico en Asistencia Odontológica" }
                 });
 
             migrationBuilder.CreateIndex(

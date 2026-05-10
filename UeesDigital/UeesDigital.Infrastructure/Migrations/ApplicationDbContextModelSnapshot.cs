@@ -184,6 +184,188 @@ namespace UeesDigital.Infrastructure.Migrations
                     b.HasIndex("IdFacultad");
 
                     b.ToTable("Carreras");
+
+                    b.HasData(
+                        new
+                        {
+                            IdCarrera = 1,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0001-0000-0000-000000000000"),
+                            IdFacultad = 1,
+                            IsDelete = false,
+                            Nombre = "Ingeniería en Desarrollo de Software y Ciencia de Datos"
+                        },
+                        new
+                        {
+                            IdCarrera = 2,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0002-0000-0000-000000000000"),
+                            IdFacultad = 1,
+                            IsDelete = false,
+                            Nombre = "Ingeniería en Tecnologías Emergentes y Robótica"
+                        },
+                        new
+                        {
+                            IdCarrera = 3,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0003-0000-0000-000000000000"),
+                            IdFacultad = 1,
+                            IsDelete = false,
+                            Nombre = "Técnico en Ciberseguridad"
+                        },
+                        new
+                        {
+                            IdCarrera = 4,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0004-0000-0000-000000000000"),
+                            IdFacultad = 2,
+                            IsDelete = false,
+                            Nombre = "Licenciatura en Administración de Empresas"
+                        },
+                        new
+                        {
+                            IdCarrera = 5,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0005-0000-0000-000000000000"),
+                            IdFacultad = 2,
+                            IsDelete = false,
+                            Nombre = "Licenciatura en Marketing"
+                        },
+                        new
+                        {
+                            IdCarrera = 6,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0006-0000-0000-000000000000"),
+                            IdFacultad = 2,
+                            IsDelete = false,
+                            Nombre = "Técnico en Marketing Digital"
+                        },
+                        new
+                        {
+                            IdCarrera = 7,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0007-0000-0000-000000000000"),
+                            IdFacultad = 2,
+                            IsDelete = false,
+                            Nombre = "Licenciatura en Relaciones Públicas con especialidad en Marketing"
+                        },
+                        new
+                        {
+                            IdCarrera = 8,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0008-0000-0000-000000000000"),
+                            IdFacultad = 3,
+                            IsDelete = false,
+                            Nombre = "Licenciatura en Ciencias Jurídicas"
+                        },
+                        new
+                        {
+                            IdCarrera = 9,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0009-0000-0000-000000000000"),
+                            IdFacultad = 3,
+                            IsDelete = false,
+                            Nombre = "Licenciatura en Relaciones y Negocios Internacionales"
+                        },
+                        new
+                        {
+                            IdCarrera = 10,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0010-0000-0000-000000000000"),
+                            IdFacultad = 4,
+                            IsDelete = false,
+                            Nombre = "Licenciatura en Psicología"
+                        },
+                        new
+                        {
+                            IdCarrera = 11,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0011-0000-0000-000000000000"),
+                            IdFacultad = 4,
+                            IsDelete = false,
+                            Nombre = "Licenciatura en Lenguas Modernas en Inglés y Francés"
+                        },
+                        new
+                        {
+                            IdCarrera = 12,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0012-0000-0000-000000000000"),
+                            IdFacultad = 4,
+                            IsDelete = false,
+                            Nombre = "Licenciatura en Teología"
+                        },
+                        new
+                        {
+                            IdCarrera = 13,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0013-0000-0000-000000000000"),
+                            IdFacultad = 4,
+                            IsDelete = false,
+                            Nombre = "Licenciatura en Traducción e Interpretación del Idioma Inglés"
+                        },
+                        new
+                        {
+                            IdCarrera = 14,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0014-0000-0000-000000000000"),
+                            IdFacultad = 4,
+                            IsDelete = false,
+                            Nombre = "Profesorado y Licenciatura en Educación Inicial y Parvularia"
+                        },
+                        new
+                        {
+                            IdCarrera = 15,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0015-0000-0000-000000000000"),
+                            IdFacultad = 5,
+                            IsDelete = false,
+                            Nombre = "Doctorado en Medicina"
+                        },
+                        new
+                        {
+                            IdCarrera = 16,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0016-0000-0000-000000000000"),
+                            IdFacultad = 5,
+                            IsDelete = false,
+                            Nombre = "Licenciatura en Enfermería"
+                        },
+                        new
+                        {
+                            IdCarrera = 17,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0017-0000-0000-000000000000"),
+                            IdFacultad = 5,
+                            IsDelete = false,
+                            Nombre = "Licenciatura en Nutrición y Dietética"
+                        },
+                        new
+                        {
+                            IdCarrera = 18,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0018-0000-0000-000000000000"),
+                            IdFacultad = 5,
+                            IsDelete = false,
+                            Nombre = "Técnico en Enfermería"
+                        },
+                        new
+                        {
+                            IdCarrera = 19,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0019-0000-0000-000000000000"),
+                            IdFacultad = 5,
+                            IsDelete = false,
+                            Nombre = "Doctorado en Cirugía Dental"
+                        },
+                        new
+                        {
+                            IdCarrera = 20,
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Id = new Guid("aaaaaaaa-0020-0000-0000-000000000000"),
+                            IdFacultad = 5,
+                            IsDelete = false,
+                            Nombre = "Técnico en Asistencia Odontológica"
+                        });
                 });
 
             modelBuilder.Entity("UeesDigital.Domain.Entities.Estudiante", b =>
@@ -244,6 +426,38 @@ namespace UeesDigital.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Facultades");
+
+                    b.HasData(
+                        new
+                        {
+                            IdFacultad = 1,
+                            Codigo = "FI",
+                            Nombre = "Facultad de Ingeniería"
+                        },
+                        new
+                        {
+                            IdFacultad = 2,
+                            Codigo = "FCE",
+                            Nombre = "Facultad de Ciencias Económicas"
+                        },
+                        new
+                        {
+                            IdFacultad = 3,
+                            Codigo = "FCJ",
+                            Nombre = "Facultad de Ciencias Jurídicas"
+                        },
+                        new
+                        {
+                            IdFacultad = 4,
+                            Codigo = "FCS",
+                            Nombre = "Facultad de Ciencias Sociales"
+                        },
+                        new
+                        {
+                            IdFacultad = 5,
+                            Codigo = "FCSA",
+                            Nombre = "Facultad de Ciencias de la Salud"
+                        });
                 });
 
             modelBuilder.Entity("UeesDigital.Domain.Entities.FechaDisponible", b =>
