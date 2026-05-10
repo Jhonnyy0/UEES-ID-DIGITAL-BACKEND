@@ -17,48 +17,50 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
     ?? "Server=(localdb)\\mssqllocaldb;Database=UeesDigitalDb;Trusted_Connection=True;TrustServerCertificate=True;";
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionString, sqlOptions =>
+    {
+        sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,
+            maxRetryDelay: TimeSpan.FromSeconds(30),
+            errorNumbersToAdd: null);
+    }));
 
 builder.Services
     .AddIdentityCore<AppIdentityUser>(options =>
     {
-        options.Password.RequireDigit           = false;
-        options.Password.RequireLowercase       = false;
-        options.Password.RequireUppercase       = false;
+        options.Password.RequireDigit = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireUppercase = false;
         options.Password.RequireNonAlphanumeric = false;
-        options.Password.RequiredLength         = 6;
+        options.Password.RequiredLength = 6;
     })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
-
-// ── JWT ───────────────────────────────────────────────────────────────────────
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer           = true,
-            ValidateAudience         = true,
-            ValidateLifetime         = true,
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer              = builder.Configuration["JwtIssuer"],
-            ValidAudience            = builder.Configuration["JwtAudience"],
-            IssuerSigningKey         = new SymmetricSecurityKey(
+            ValidIssuer = builder.Configuration["JwtIssuer"],
+            ValidAudience = builder.Configuration["JwtAudience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(builder.Configuration["JwtKey"]!))
         };
     });
 
 builder.Services.AddAuthorization();
-
-// ── Repositorios y servicios ──────────────────────────────────────────────────
-builder.Services.AddScoped<ICarreraRepository,          CarreraRepository>();
-builder.Services.AddScoped<IEstudianteRepository,       EstudianteRepository>();
-builder.Services.AddScoped<IFechaDisponibleRepository,  FechaDisponibleRepository>();
-builder.Services.AddScoped<IHorarioDisponibleRepository,HorarioDisponibleRepository>();
-builder.Services.AddScoped<ITramiteRepository,          TramiteRepository>();
-builder.Services.AddScoped<IUserRepository,             UserRepository>();
-builder.Services.AddScoped<IJwtService,                 JwtService>();
+builder.Services.AddScoped<ICarreraRepository, CarreraRepository>();
+builder.Services.AddScoped<IEstudianteRepository, EstudianteRepository>();
+builder.Services.AddScoped<IFechaDisponibleRepository, FechaDisponibleRepository>();
+builder.Services.AddScoped<IHorarioDisponibleRepository, HorarioDisponibleRepository>();
+builder.Services.AddScoped<ITramiteRepository, TramiteRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<CarreraService>();
@@ -71,12 +73,12 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
-        Name         = "Authorization",
-        Type         = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
-        Scheme       = "Bearer",
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "Bearer",
         BearerFormat = "JWT",
-        In           = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Description  = "Ingresa el token JWT. Ejemplo: Bearer {token}"
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Ingresa el token JWT. Ejemplo: Bearer {token}"
     });
     c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
     {
@@ -102,14 +104,42 @@ builder.Services.AddControllers()
 
 builder.Services.AddOpenApi();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontendPolicy", policy =>
+    {
+        policy
+            .WithOrigins(
+                "http://localhost:5173", 
+                "http://localhost:4173",  
+                "http://localhost:3000"   
+            )
+            .SetIsOriginAllowed(_ => true)  
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var services    = scope.ServiceProvider;
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = services.GetRequiredService<UserManager<AppIdentityUser>>();
-    var config      = services.GetRequiredService<IConfiguration>();
+    var config = services.GetRequiredService<IConfiguration>();
+
+    try
+    {
+        await context.Database.MigrateAsync();
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating the database.");
+        throw;
+    }
 
     string[] roles = { "Admin", "Gestor" };
     foreach (var role in roles)
@@ -118,17 +148,17 @@ using (var scope = app.Services.CreateScope())
             await roleManager.CreateAsync(new IdentityRole(role));
     }
 
-    var adminEmail    = config["AdminUser:Email"]    ?? "admin@uees.edu.sv";
+    var adminEmail = config["AdminUser:Email"] ?? "admin@uees.edu.sv";
     var adminPassword = config["AdminUser:Password"] ?? "Admin123!";
-    var adminName     = config["AdminUser:Nombre"]   ?? "Administrador UEES";
+    var adminName = config["AdminUser:Nombre"] ?? "Administrador UEES";
 
     var existingAdmin = await userManager.FindByEmailAsync(adminEmail);
     if (existingAdmin == null)
     {
         var adminUser = new AppIdentityUser
         {
-            UserName       = adminEmail,
-            Email          = adminEmail,
+            UserName = adminEmail,
+            Email = adminEmail,
             NombreCompleto = adminName,
             EmailConfirmed = true
         };
@@ -138,17 +168,17 @@ using (var scope = app.Services.CreateScope())
             await userManager.AddToRoleAsync(adminUser, "Admin");
     }
 
-    var gestorEmail    = config["GestorUser:Email"]    ?? "gestor@uees.edu.sv";
+    var gestorEmail = config["GestorUser:Email"] ?? "gestor@uees.edu.sv";
     var gestorPassword = config["GestorUser:Password"] ?? "Gestor123!";
-    var gestorName     = config["GestorUser:Nombre"]   ?? "Gestor UEES";
+    var gestorName = config["GestorUser:Nombre"] ?? "Gestor UEES";
 
     var existingGestor = await userManager.FindByEmailAsync(gestorEmail);
     if (existingGestor == null)
     {
         var gestorUser = new AppIdentityUser
         {
-            UserName       = gestorEmail,
-            Email          = gestorEmail,
+            UserName = gestorEmail,
+            Email = gestorEmail,
             NombreCompleto = gestorName,
             EmailConfirmed = true
         };
@@ -166,7 +196,11 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
+app.UseCors("FrontendPolicy");
+
+if (!app.Environment.IsDevelopment())
+    app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

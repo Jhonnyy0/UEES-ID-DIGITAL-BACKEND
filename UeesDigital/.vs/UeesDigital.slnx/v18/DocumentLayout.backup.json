@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Infrastructure\\Migrations\\20260510050748_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:UeesDigital.Infrastructure\\Migrations\\20260510050748_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{917059A1-C84F-22E4-8682-06C7279448B6}|UeesDigital.Infrastructure\\UeesDigital.Infrastructure.csproj|c:\\users\\alejandro\\documents\\github\\uees-id-digital-backend\\ueesdigital\\ueesdigital.infrastructure\\persistence\\repositories\\horariodisponiblerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{917059A1-C84F-22E4-8682-06C7279448B6}|UeesDigital.Infrastructure\\UeesDigital.Infrastructure.csproj|solutionrelative:ueesdigital.infrastructure\\persistence\\repositories\\horariodisponiblerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Infrastructure\\Migrations\\20260510044656_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:UeesDigital.Infrastructure\\Migrations\\20260510044656_InitialCreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -23,6 +31,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "20260510050748_InitialCreate.cs",
+              "DocumentMoniker": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Infrastructure\\Migrations\\20260510050748_InitialCreate.cs",
+              "RelativeDocumentMoniker": "UeesDigital.Infrastructure\\Migrations\\20260510050748_InitialCreate.cs",
+              "ToolTip": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Infrastructure\\Migrations\\20260510050748_InitialCreate.cs",
+              "RelativeToolTip": "UeesDigital.Infrastructure\\Migrations\\20260510050748_InitialCreate.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-10T05:07:49.1Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HorarioDisponibleRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Infrastructure\\Persistence\\Repositories\\HorarioDisponibleRepository.cs",
+              "RelativeDocumentMoniker": "UeesDigital.Infrastructure\\Persistence\\Repositories\\HorarioDisponibleRepository.cs",
+              "ToolTip": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Infrastructure\\Persistence\\Repositories\\HorarioDisponibleRepository.cs",
+              "RelativeToolTip": "UeesDigital.Infrastructure\\Persistence\\Repositories\\HorarioDisponibleRepository.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAmwBEAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-10T05:00:09.016Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "20260510044656_InitialCreate.cs",
               "DocumentMoniker": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Infrastructure\\Migrations\\20260510044656_InitialCreate.cs",
               "RelativeDocumentMoniker": "UeesDigital.Infrastructure\\Migrations\\20260510044656_InitialCreate.cs",
@@ -35,7 +69,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "EstudiantesController.cs",
               "DocumentMoniker": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital\\Controllers\\EstudiantesController.cs",
               "RelativeDocumentMoniker": "UeesDigital\\Controllers\\EstudiantesController.cs",

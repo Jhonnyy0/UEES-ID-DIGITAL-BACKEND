@@ -35,15 +35,17 @@ public class TramitesController : ControllerBase
         return tramite is null ? NotFound() : Ok(ToDto(tramite));
     }
 
+    // AllowAnonymous permite que el chatbot público cree trámites sin token
+    [AllowAnonymous]
     [HttpPost]
     public async Task<ActionResult<TramiteResponseDto>> Create(CreateTramiteRequestDto request)
     {
         var tramite = new Tramite
         {
-            IdHorario   = request.IdHorario,
+            IdHorario = request.IdHorario,
             IdEstudiante = request.IdEstudiante,
             TipoTramite = request.TipoTramite,
-            Estado      = EstadoTramite.Pendiente
+            Estado = EstadoTramite.Pendiente
         };
 
         var created = await _tramiteService.Add(tramite);
@@ -56,9 +58,9 @@ public class TramitesController : ControllerBase
         var tramite = await _tramiteService.FindByIdAsync(id);
         if (tramite is null) return NotFound();
 
-        tramite.IdHorario   = request.IdHorario;
+        tramite.IdHorario = request.IdHorario;
         tramite.TipoTramite = request.TipoTramite;
-        tramite.Estado      = request.Estado;
+        tramite.Estado = request.Estado;
 
         var updated = await _tramiteService.Update(tramite);
         return Ok(ToDto(updated));
@@ -77,16 +79,16 @@ public class TramitesController : ControllerBase
 
     private static TramiteResponseDto ToDto(Tramite t) => new()
     {
-        IdTramite           = t.IdTramite,
-        IdHorario           = t.IdHorario,
-        IdEstudiante        = t.IdEstudiante,
-        FechaRegistro       = t.FechaRegistro,
-        CodigoConfirmacion  = t.CodigoConfirmacion,
-        TipoTramite         = t.TipoTramite,
-        Estado              = t.Estado,
-        EstudianteNombre    = t.Estudiante?.FullName,
-        FechaCita           = t.Horario?.FechaDisponible?.Fecha,
-        HoraInicio          = t.Horario?.HoraInicio
+        IdTramite = t.IdTramite,
+        IdHorario = t.IdHorario,
+        IdEstudiante = t.IdEstudiante,
+        FechaRegistro = t.FechaRegistro,
+        CodigoConfirmacion = t.CodigoConfirmacion,
+        TipoTramite = t.TipoTramite,
+        Estado = t.Estado,
+        EstudianteNombre = t.Estudiante?.FullName,
+        FechaCita = t.Horario?.FechaDisponible?.Fecha,
+        HoraInicio = t.Horario?.HoraInicio
     };
 
     private static int NormalizeTake(int take) => take is < 1 or > 100 ? 20 : take;
