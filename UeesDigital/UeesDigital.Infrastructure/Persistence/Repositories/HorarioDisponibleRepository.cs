@@ -15,14 +15,14 @@ namespace UeesDigital.Infrastructure.Persistence.Repositories
         {
             _context.HorariosDisponibles.Add(entity);
             await _context.SaveChangesAsync();
-            return entity;
+            return await GetByIdAsync(entity.IdHorario) ?? entity;
         }
 
         public async Task<HorarioDisponible> Update(HorarioDisponible entity)
         {
             _context.HorariosDisponibles.Update(entity);
             await _context.SaveChangesAsync();
-            return entity;
+            return await GetByIdAsync(entity.IdHorario) ?? entity; 
         }
 
         public async Task<bool> Delete(int id)
@@ -51,14 +51,12 @@ namespace UeesDigital.Infrastructure.Persistence.Repositories
                 .ToListAsync();
         }
 
-        // ← Ahora incluye FechaDisponible
         public async Task<IEnumerable<HorarioDisponible>> GetDisponiblesByFechaAsync(int idFecha) =>
             await _context.HorariosDisponibles
                 .Include(h => h.FechaDisponible)
                 .Where(h => h.IdFechaDisponible == idFecha && h.Activo && h.CuposOcupados < h.CuposMaximos)
                 .ToListAsync();
 
-        // ← Ahora incluye FechaDisponible
         public async Task<HorarioDisponible?> GetByIdAsync(int id) =>
             await _context.HorariosDisponibles
                 .Include(h => h.FechaDisponible)
