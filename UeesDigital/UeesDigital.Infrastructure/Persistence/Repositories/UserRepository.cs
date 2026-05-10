@@ -15,16 +15,15 @@ namespace UeesDigital.Infrastructure.Persistence.Repositories
             _userManager = userManager;
         }
 
-        public async Task<Estudiante> CreateUser(Estudiante estudiante)
+        public async Task<Estudiante> CreateUser(Estudiante estudiante, string password)
         {
             var identityUser = estudiante.ToIdentityUser();
-            var result = await _userManager.CreateAsync(identityUser, estudiante.Password);
+            var result = await _userManager.CreateAsync(identityUser, password);
             if (!result.Succeeded)
             {
                 var errors = string.Join(" ", result.Errors.Select(e => e.Description));
                 throw new InvalidOperationException(errors);
             }
-
             return estudiante;
         }
 

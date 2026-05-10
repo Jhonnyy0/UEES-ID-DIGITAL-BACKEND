@@ -36,6 +36,8 @@ builder.Services.AddScoped<CarreraService>();
 builder.Services.AddScoped<FechaDisponibleService>();
 builder.Services.AddScoped<HorarioDisponibleService>();
 builder.Services.AddScoped<TramiteService>();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -50,6 +52,8 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseSwagger();
+    app.UseSwaggerUI();
     app.MapOpenApi();
 }
 
