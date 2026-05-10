@@ -9,6 +9,7 @@ namespace UeesDigital.Infrastructure.Mapping
         {
             return new AppIdentityUser
             {
+                Id = estudiante.Id.ToString(),
                 UserName = estudiante.Email,
                 Email = estudiante.Email,
                 NombreCompleto = estudiante.FullName

@@ -42,5 +42,11 @@ namespace UeesDigital.Application.Services
 
             return result.ToList();
         }
+
+        public async Task<List<FechaDisponible>> GetActivasAsync()
+        {
+            var result = await _fechaDisponibleRepository.GetActivasAsync();
+            return result.Where(f => !f.IsDelete).ToList();
+        }
     }
 }

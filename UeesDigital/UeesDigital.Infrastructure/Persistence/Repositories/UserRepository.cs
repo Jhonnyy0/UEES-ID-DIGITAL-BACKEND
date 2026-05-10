@@ -18,7 +18,13 @@ namespace UeesDigital.Infrastructure.Persistence.Repositories
         public async Task<Estudiante> CreateUser(Estudiante estudiante)
         {
             var identityUser = estudiante.ToIdentityUser();
-            await _userManager.CreateAsync(identityUser, estudiante.Password);
+            var result = await _userManager.CreateAsync(identityUser, estudiante.Password);
+            if (!result.Succeeded)
+            {
+                var errors = string.Join(" ", result.Errors.Select(e => e.Description));
+                throw new InvalidOperationException(errors);
+            }
+
             return estudiante;
         }
 
@@ -30,8 +36,8 @@ namespace UeesDigital.Infrastructure.Persistence.Repositories
             {
                 Id = Guid.Parse(user.Id),
                 Email = user.Email!,
-                FirstName = user.NombreCompleto?.Split(' ')[0] ?? string.Empty,
-                LastName = user.NombreCompleto?.Split(' ')[1] ?? string.Empty
+                FirstName = user.NombreCompleto?.Split(' ', 2)[0] ?? string.Empty,
+                LastName = user.NombreCompleto?.Split(' ', 2).ElementAtOrDefault(1) ?? string.Empty
             };
         }
 

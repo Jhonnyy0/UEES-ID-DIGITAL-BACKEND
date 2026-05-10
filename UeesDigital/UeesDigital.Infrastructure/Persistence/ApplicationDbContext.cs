@@ -21,6 +21,24 @@ namespace UeesDigital.Infrastructure.Persistence
             base.OnModelCreating(builder);
 
             builder.Entity<Facultad>()
+                .HasKey(f => f.IdFacultad);
+
+            builder.Entity<Carrera>()
+                .HasKey(c => c.IdCarrera);
+
+            builder.Entity<Estudiante>()
+                .HasKey(e => e.Id);
+
+            builder.Entity<FechaDisponible>()
+                .HasKey(f => f.IdFechaDisponible);
+
+            builder.Entity<HorarioDisponible>()
+                .HasKey(h => h.IdHorario);
+
+            builder.Entity<Tramite>()
+                .HasKey(t => t.IdTramite);
+
+            builder.Entity<Facultad>()
                 .HasIndex(f => f.Codigo).IsUnique();
 
             builder.Entity<Estudiante>()

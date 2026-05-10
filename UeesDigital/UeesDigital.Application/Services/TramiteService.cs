@@ -31,9 +31,9 @@ namespace UeesDigital.Application.Services
             return await _tramiteRepository.Update(tramite);
         }
 
-        public async Task<Tramite?> FindByIdAsync(int id)
+        public async Task<Tramite?> FindByIdAsync(Guid id)
         {
-            return await _tramiteRepository.FindFirstOrDefaultAsync(t => t.IdTramite == Guid.Parse(id.ToString()));
+            return await _tramiteRepository.GetByIdAsync(id);
         }
 
         public async Task<List<Tramite>> GetAll(int take, int page, string search)

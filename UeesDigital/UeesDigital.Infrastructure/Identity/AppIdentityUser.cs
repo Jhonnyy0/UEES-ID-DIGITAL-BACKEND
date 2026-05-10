@@ -4,6 +4,6 @@ namespace UeesDigital.Infrastructure.Identity
 {
     public class AppIdentityUser : IdentityUser
     {
-        public string NombreCompleto { get; set; }
+        public string NombreCompleto { get; set; } = string.Empty;
     }
 }

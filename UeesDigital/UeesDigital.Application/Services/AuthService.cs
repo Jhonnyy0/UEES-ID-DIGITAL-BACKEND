@@ -9,17 +9,26 @@ namespace UeesDigital.Application.Services
     public class AuthService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IEstudianteRepository _estudianteRepository;
         private readonly IJwtService _jwtService;
 
-        public AuthService(IUserRepository userRepository, IJwtService jwtService)
+        public AuthService(IUserRepository userRepository, IEstudianteRepository estudianteRepository, IJwtService jwtService)
         {
             _userRepository = userRepository;
+            _estudianteRepository = estudianteRepository;
             _jwtService = jwtService;
         }
 
         public async Task<Estudiante> RegisterUser(Estudiante estudiante)
         {
+            if (estudiante.Id == Guid.Empty)
+            {
+                estudiante.Id = Guid.NewGuid();
+            }
+
             await _userRepository.CreateUser(estudiante);
+            estudiante.Password = string.Empty;
+            await _estudianteRepository.CreateAsync(estudiante);
             return estudiante;
         }
 

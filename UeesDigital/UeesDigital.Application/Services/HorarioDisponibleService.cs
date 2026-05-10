@@ -42,5 +42,11 @@ namespace UeesDigital.Application.Services
 
             return result.ToList();
         }
+
+        public async Task<List<HorarioDisponible>> GetDisponiblesByFechaAsync(int idFecha)
+        {
+            var result = await _horarioDisponibleRepository.GetDisponiblesByFechaAsync(idFecha);
+            return result.Where(h => !h.IsDelete).ToList();
+        }
     }
 }
