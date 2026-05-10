@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UeesDigital.Application.Services;
 using UeesDigital.Domain.Entities;
@@ -5,6 +6,7 @@ using UeesDigital.DTOs;
 
 namespace UeesDigital.Controllers;
 
+[Authorize(Roles = "Admin,Gestor")]
 [ApiController]
 [Route("api/[controller]")]
 public class FechasDisponiblesController : ControllerBase
@@ -18,14 +20,13 @@ public class FechasDisponiblesController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<FechaDisponibleResponseDto>>> GetAll(
-        [FromQuery] int take = 20,
-        [FromQuery] int page = 1,
-        [FromQuery] string search = "")
+        [FromQuery] int take = 20, [FromQuery] int page = 1, [FromQuery] string search = "")
     {
         var fechas = await _fechaDisponibleService.GetAll(NormalizeTake(take), NormalizePage(page), search ?? string.Empty);
         return Ok(fechas.Select(ToDto));
     }
 
+    [AllowAnonymous]
     [HttpGet("activas")]
     public async Task<ActionResult<IEnumerable<FechaDisponibleResponseDto>>> GetActivas()
     {
@@ -43,12 +44,7 @@ public class FechasDisponiblesController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<FechaDisponibleResponseDto>> Create(FechaDisponibleRequestDto request)
     {
-        var fecha = new FechaDisponible
-        {
-            Fecha = request.Fecha,
-            Activo = request.Activo
-        };
-
+        var fecha = new FechaDisponible { Fecha = request.Fecha, Activo = request.Activo };
         var created = await _fechaDisponibleService.Add(fecha);
         return CreatedAtAction(nameof(GetById), new { id = created.IdFechaDisponible }, ToDto(created));
     }
@@ -57,12 +53,9 @@ public class FechasDisponiblesController : ControllerBase
     public async Task<ActionResult<FechaDisponibleResponseDto>> Update(int id, FechaDisponibleRequestDto request)
     {
         var fecha = await _fechaDisponibleService.FindByIdAsync(id);
-        if (fecha is null)
-        {
-            return NotFound();
-        }
+        if (fecha is null) return NotFound();
 
-        fecha.Fecha = request.Fecha;
+        fecha.Fecha  = request.Fecha;
         fecha.Activo = request.Activo;
 
         var updated = await _fechaDisponibleService.Update(fecha);
@@ -76,29 +69,23 @@ public class FechasDisponiblesController : ControllerBase
         return deleted ? NoContent() : NotFound();
     }
 
-    private static FechaDisponibleResponseDto ToDto(FechaDisponible fecha)
+    private static FechaDisponibleResponseDto ToDto(FechaDisponible f) => new()
     {
-        return new FechaDisponibleResponseDto
-        {
-            IdFechaDisponible = fecha.IdFechaDisponible,
-            Fecha = fecha.Fecha,
-            Activo = fecha.Activo,
-            Horarios = fecha.Horarios?.Select(HorarioToResumenDto) ?? []
-        };
-    }
+        IdFechaDisponible = f.IdFechaDisponible,
+        Fecha             = f.Fecha,
+        Activo            = f.Activo,
+        Horarios          = f.Horarios?.Select(HorarioToResumen) ?? []
+    };
 
-    private static HorarioDisponibleResumenDto HorarioToResumenDto(HorarioDisponible horario)
+    private static HorarioDisponibleResumenDto HorarioToResumen(HorarioDisponible h) => new()
     {
-        return new HorarioDisponibleResumenDto
-        {
-            IdHorario = horario.IdHorario,
-            HoraInicio = horario.HoraInicio,
-            CuposMaximos = horario.CuposMaximos,
-            CuposOcupados = horario.CuposOcupados,
-            CuposDisponibles = Math.Max(0, horario.CuposMaximos - horario.CuposOcupados),
-            Activo = horario.Activo
-        };
-    }
+        IdHorario        = h.IdHorario,
+        HoraInicio       = h.HoraInicio,
+        CuposMaximos     = h.CuposMaximos,
+        CuposOcupados    = h.CuposOcupados,
+        CuposDisponibles = Math.Max(0, h.CuposMaximos - h.CuposOcupados),
+        Activo           = h.Activo
+    };
 
     private static int NormalizeTake(int take) => take is < 1 or > 100 ? 20 : take;
     private static int NormalizePage(int page) => page < 1 ? 1 : page;

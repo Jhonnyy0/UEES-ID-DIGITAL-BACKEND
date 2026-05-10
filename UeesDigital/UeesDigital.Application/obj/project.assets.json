@@ -1,30 +1,49 @@
 {
   "version": 4,
   "targets": {
-    "net10.0": {}
+    "net10.0": {
+      "UeesDigital.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/UeesDigital.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/UeesDigital.Domain.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "UeesDigital.Domain/1.0.0": {
+      "type": "project",
+      "path": "../UeesDigital.Domain/UeesDigital.Domain.csproj",
+      "msbuildProject": "../UeesDigital.Domain/UeesDigital.Domain.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net10.0": []
+    "net10.0": [
+      "UeesDigital.Domain >= 1.0.0"
+    ]
   },
   "packageFolders": {
-    "C:\\Users\\Jhonny\\.nuget\\packages\\": {},
+    "C:\\Users\\Alejandro\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jhonny\\source\\repos\\UeesDigital\\UeesDigital.Application\\UeesDigital.Application.csproj",
+      "projectUniqueName": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Application\\UeesDigital.Application.csproj",
       "projectName": "UeesDigital.Application",
-      "projectPath": "C:\\Users\\Jhonny\\source\\repos\\UeesDigital\\UeesDigital.Application\\UeesDigital.Application.csproj",
-      "packagesPath": "C:\\Users\\Jhonny\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jhonny\\source\\repos\\UeesDigital\\UeesDigital.Application\\obj\\",
+      "projectPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Application\\UeesDigital.Application.csproj",
+      "packagesPath": "C:\\Users\\Alejandro\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Application\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Jhonny\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Alejandro\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -39,7 +58,11 @@
         "net10.0": {
           "framework": "net10.0",
           "targetAlias": "net10.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj": {
+              "projectPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

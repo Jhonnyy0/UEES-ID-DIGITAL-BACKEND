@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UeesDigital")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+96a50574c8faf1b27e205508ef42bdcf2b928dad")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e51a940ef49f71fda13959e29cec42aebfa0823b")]
 [assembly: System.Reflection.AssemblyProductAttribute("UeesDigital")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UeesDigital")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

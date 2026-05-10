@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UeesDigital.Application.Services;
 using UeesDigital.Domain.Entities;
@@ -5,6 +6,7 @@ using UeesDigital.DTOs;
 
 namespace UeesDigital.Controllers;
 
+[Authorize(Roles = "Admin,Gestor")]
 [ApiController]
 [Route("api/[controller]")]
 public class TramitesController : ControllerBase
@@ -38,10 +40,10 @@ public class TramitesController : ControllerBase
     {
         var tramite = new Tramite
         {
-            IdHorario = request.IdHorario,
+            IdHorario   = request.IdHorario,
             IdEstudiante = request.IdEstudiante,
             TipoTramite = request.TipoTramite,
-            Estado = EstadoTramite.Pendiente
+            Estado      = EstadoTramite.Pendiente
         };
 
         var created = await _tramiteService.Add(tramite);
@@ -52,14 +54,11 @@ public class TramitesController : ControllerBase
     public async Task<ActionResult<TramiteResponseDto>> Update(Guid id, UpdateTramiteRequestDto request)
     {
         var tramite = await _tramiteService.FindByIdAsync(id);
-        if (tramite is null)
-        {
-            return NotFound();
-        }
+        if (tramite is null) return NotFound();
 
-        tramite.IdHorario = request.IdHorario;
+        tramite.IdHorario   = request.IdHorario;
         tramite.TipoTramite = request.TipoTramite;
-        tramite.Estado = request.Estado;
+        tramite.Estado      = request.Estado;
 
         var updated = await _tramiteService.Update(tramite);
         return Ok(ToDto(updated));
@@ -69,32 +68,26 @@ public class TramitesController : ControllerBase
     public async Task<IActionResult> Cancel(Guid id)
     {
         var tramite = await _tramiteService.FindByIdAsync(id);
-        if (tramite is null)
-        {
-            return NotFound();
-        }
+        if (tramite is null) return NotFound();
 
         tramite.Estado = EstadoTramite.Cancelado;
         await _tramiteService.Update(tramite);
         return NoContent();
     }
 
-    private static TramiteResponseDto ToDto(Tramite tramite)
+    private static TramiteResponseDto ToDto(Tramite t) => new()
     {
-        return new TramiteResponseDto
-        {
-            IdTramite = tramite.IdTramite,
-            IdHorario = tramite.IdHorario,
-            IdEstudiante = tramite.IdEstudiante,
-            FechaRegistro = tramite.FechaRegistro,
-            CodigoConfirmacion = tramite.CodigoConfirmacion,
-            TipoTramite = tramite.TipoTramite,
-            Estado = tramite.Estado,
-            EstudianteNombre = tramite.Estudiante?.FullName,
-            FechaCita = tramite.Horario?.FechaDisponible?.Fecha,
-            HoraInicio = tramite.Horario?.HoraInicio
-        };
-    }
+        IdTramite           = t.IdTramite,
+        IdHorario           = t.IdHorario,
+        IdEstudiante        = t.IdEstudiante,
+        FechaRegistro       = t.FechaRegistro,
+        CodigoConfirmacion  = t.CodigoConfirmacion,
+        TipoTramite         = t.TipoTramite,
+        Estado              = t.Estado,
+        EstudianteNombre    = t.Estudiante?.FullName,
+        FechaCita           = t.Horario?.FechaDisponible?.Fecha,
+        HoraInicio          = t.Horario?.HoraInicio
+    };
 
     private static int NormalizeTake(int take) => take is < 1 or > 100 ? 20 : take;
     private static int NormalizePage(int page) => page < 1 ? 1 : page;
