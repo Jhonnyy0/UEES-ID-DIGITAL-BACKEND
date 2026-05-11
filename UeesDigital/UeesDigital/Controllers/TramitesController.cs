@@ -28,16 +28,11 @@ public class TramitesController : ControllerBase
         [FromQuery] int page = 1,
         [FromQuery] string search = "")
     {
-        // Consulta directa con todos los joins necesarios
         var query = _context.Tramites
-            .Include(t => t.Estudiante)
-                .ThenInclude(e => e.Carrera)
-                    .ThenInclude(c => c.Facultad)
-            .Include(t => t.Horario)
-                .ThenInclude(h => h.FechaDisponible)
+            .Include(t => t.Estudiante).ThenInclude(e => e.Carrera).ThenInclude(c => c.Facultad)
+            .Include(t => t.Horario).ThenInclude(h => h.FechaDisponible)
             .Where(t => !t.IsDelete);
 
-        // Filtro de búsqueda por nombre de estudiante o código de confirmación
         if (!string.IsNullOrWhiteSpace(search))
         {
             var s = search.ToLower();
@@ -61,11 +56,8 @@ public class TramitesController : ControllerBase
     public async Task<ActionResult<TramiteResponseDto>> GetById(Guid id)
     {
         var tramite = await _context.Tramites
-            .Include(t => t.Estudiante)
-                .ThenInclude(e => e.Carrera)
-                    .ThenInclude(c => c.Facultad)
-            .Include(t => t.Horario)
-                .ThenInclude(h => h.FechaDisponible)
+            .Include(t => t.Estudiante).ThenInclude(e => e.Carrera).ThenInclude(c => c.Facultad)
+            .Include(t => t.Horario).ThenInclude(h => h.FechaDisponible)
             .FirstOrDefaultAsync(t => t.IdTramite == id);
 
         return tramite is null ? NotFound() : Ok(ToDto(tramite));
@@ -81,59 +73,146 @@ public class TramitesController : ControllerBase
             IdHorario = request.IdHorario,
             IdEstudiante = request.IdEstudiante,
             TipoTramite = request.TipoTramite,
-            Estado = EstadoTramite.Pendiente
+            Estado = EstadoTramite.Pendiente,
         };
 
-        var created = await _tramiteService.Add(tramite);
+        try
+        {
+            var created = await _tramiteService.Add(tramite);
+            var full = await _context.Tramites
+                .Include(t => t.Estudiante).ThenInclude(e => e.Carrera).ThenInclude(c => c.Facultad)
+                .Include(t => t.Horario).ThenInclude(h => h.FechaDisponible)
+                .FirstOrDefaultAsync(t => t.IdTramite == created.IdTramite);
 
-        // Recargamos con todos los joins para retornar datos completos
-        var full = await _context.Tramites
-            .Include(t => t.Estudiante)
-                .ThenInclude(e => e.Carrera)
-                    .ThenInclude(c => c.Facultad)
-            .Include(t => t.Horario)
-                .ThenInclude(h => h.FechaDisponible)
-            .FirstOrDefaultAsync(t => t.IdTramite == created.IdTramite);
-
-        return CreatedAtAction(nameof(GetById), new { id = created.IdTramite }, ToDto(full ?? created));
+            return CreatedAtAction(nameof(GetById), new { id = created.IdTramite }, ToDto(full ?? created));
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<TramiteResponseDto>> Update(Guid id, UpdateTramiteRequestDto request)
     {
-        var tramite = await _tramiteService.FindByIdAsync(id);
-        if (tramite is null) return NotFound();
+        // ── CLAVE: leemos el estado ACTUAL con AsNoTracking para no contaminar el contexto
+        var estadoActual = await _context.Tramites
+            .AsNoTracking()
+            .Where(t => t.IdTramite == id)
+            .Select(t => new { t.Estado, t.IdHorario })
+            .FirstOrDefaultAsync();
 
-        tramite.IdHorario = request.IdHorario;
-        tramite.TipoTramite = request.TipoTramite;
-        tramite.Estado = request.Estado;
+        if (estadoActual is null) return NotFound();
 
-        await _tramiteService.Update(tramite);
+        try
+        {
+            // Ajuste de cupos ANTES de guardar el nuevo estado
+            await AjustarCupos(
+                horarioAnteriorId: estadoActual.IdHorario,
+                horarioNuevoId: request.IdHorario,
+                estadoAnterior: estadoActual.Estado,
+                estadoNuevo: request.Estado
+            );
 
-        // Retornamos con datos completos
-        var full = await _context.Tramites
-            .Include(t => t.Estudiante)
-                .ThenInclude(e => e.Carrera)
-                    .ThenInclude(c => c.Facultad)
-            .Include(t => t.Horario)
-                .ThenInclude(h => h.FechaDisponible)
-            .FirstOrDefaultAsync(t => t.IdTramite == id);
+            // Actualizar el trámite directamente
+            await _context.Tramites
+                .Where(t => t.IdTramite == id)
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(t => t.Estado, request.Estado)
+                    .SetProperty(t => t.TipoTramite, request.TipoTramite)
+                    .SetProperty(t => t.IdHorario, request.IdHorario));
 
-        return Ok(ToDto(full ?? tramite));
+            // Retornar datos completos
+            var full = await _context.Tramites
+                .Include(t => t.Estudiante).ThenInclude(e => e.Carrera).ThenInclude(c => c.Facultad)
+                .Include(t => t.Horario).ThenInclude(h => h.FechaDisponible)
+                .FirstOrDefaultAsync(t => t.IdTramite == id);
+
+            return Ok(ToDto(full!));
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Cancel(Guid id)
     {
-        var tramite = await _tramiteService.FindByIdAsync(id);
+        var tramite = await _context.Tramites
+            .AsNoTracking()
+            .FirstOrDefaultAsync(t => t.IdTramite == id);
+
         if (tramite is null) return NotFound();
 
-        tramite.Estado = EstadoTramite.Cancelado;
-        await _tramiteService.Update(tramite);
+        if (tramite.Estado != EstadoTramite.Cancelado)
+        {
+            // Devolver cupo
+            await _context.HorariosDisponibles
+                .Where(h => h.IdHorario == tramite.IdHorario && h.CuposOcupados > 0)
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(h => h.CuposOcupados, h => h.CuposOcupados - 1));
+        }
+
+        await _context.Tramites
+            .Where(t => t.IdTramite == id)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(t => t.Estado, EstadoTramite.Cancelado));
+
         return NoContent();
     }
 
-    // Mapeo completo: Tramite → TramiteResponseDto
+    // ── Lógica centralizada de cupos ─────────────────────────────────────────
+    private async Task AjustarCupos(
+        int horarioAnteriorId, int horarioNuevoId,
+        EstadoTramite estadoAnterior, EstadoTramite estadoNuevo)
+    {
+        bool anteriorActivo = estadoAnterior != EstadoTramite.Cancelado;
+        bool nuevoActivo = estadoNuevo != EstadoTramite.Cancelado;
+        bool cambiaHorario = horarioAnteriorId != horarioNuevoId;
+
+        if (anteriorActivo && !nuevoActivo)
+        {
+            // Se cancela → devolver cupo al horario actual
+            await _context.HorariosDisponibles
+                .Where(h => h.IdHorario == horarioAnteriorId && h.CuposOcupados > 0)
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(h => h.CuposOcupados, h => h.CuposOcupados - 1));
+        }
+        else if (!anteriorActivo && nuevoActivo)
+        {
+            // Se reactiva → descontar cupo del horario nuevo
+            var horario = await _context.HorariosDisponibles
+                .FirstOrDefaultAsync(h => h.IdHorario == horarioNuevoId);
+            if (horario != null && horario.CuposOcupados >= horario.CuposMaximos)
+                throw new InvalidOperationException("No hay cupos disponibles para reactivar el trámite.");
+
+            await _context.HorariosDisponibles
+                .Where(h => h.IdHorario == horarioNuevoId)
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(h => h.CuposOcupados, h => h.CuposOcupados + 1));
+        }
+        else if (anteriorActivo && nuevoActivo && cambiaHorario)
+        {
+            // Cambia de horario sin cancelar → devolver anterior, descontar nuevo
+            await _context.HorariosDisponibles
+                .Where(h => h.IdHorario == horarioAnteriorId && h.CuposOcupados > 0)
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(h => h.CuposOcupados, h => h.CuposOcupados - 1));
+
+            var horarioNuevo = await _context.HorariosDisponibles
+                .FirstOrDefaultAsync(h => h.IdHorario == horarioNuevoId);
+            if (horarioNuevo != null && horarioNuevo.CuposOcupados >= horarioNuevo.CuposMaximos)
+                throw new InvalidOperationException("No hay cupos disponibles en el nuevo horario.");
+
+            await _context.HorariosDisponibles
+                .Where(h => h.IdHorario == horarioNuevoId)
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(h => h.CuposOcupados, h => h.CuposOcupados + 1));
+        }
+        // Si anteriorActivo && nuevoActivo && !cambiaHorario → no cambian cupos
+    }
+
     private static TramiteResponseDto ToDto(Tramite t) => new()
     {
         IdTramite = t.IdTramite,
@@ -143,24 +222,11 @@ public class TramitesController : ControllerBase
         CodigoConfirmacion = t.CodigoConfirmacion,
         TipoTramite = t.TipoTramite,
         Estado = t.Estado,
-
-        // Estudiante (tabla Estudiantes)
-        EstudianteNombre = t.Estudiante != null
-                             ? $"{t.Estudiante.FirstName} {t.Estudiante.LastName}"
-                             : null,
+        EstudianteNombre = t.Estudiante != null ? $"{t.Estudiante.FirstName} {t.Estudiante.LastName}" : null,
         EstudianteCarnet = t.Estudiante?.Carnet,
-
-        // Carrera (tabla Carreras)
         CarreraNombre = t.Estudiante?.Carrera?.Nombre,
-
-        // Facultad (tabla Facultades)
         FacultadNombre = t.Estudiante?.Carrera?.Facultad?.Nombre,
-
-        // Horario y Fecha
         FechaCita = t.Horario?.FechaDisponible?.Fecha,
         HoraInicio = t.Horario?.HoraInicio,
     };
-
-    private static int NormalizeTake(int take) => take is < 1 or > 100 ? 20 : take;
-    private static int NormalizePage(int page) => page < 1 ? 1 : page;
 }
