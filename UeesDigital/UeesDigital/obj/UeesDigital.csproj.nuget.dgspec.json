@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital\\UeesDigital.csproj": {}
+    "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital\\UeesDigital.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Application\\UeesDigital.Application.csproj": {
+    "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Application\\UeesDigital.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Application\\UeesDigital.Application.csproj",
+        "projectUniqueName": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Application\\UeesDigital.Application.csproj",
         "projectName": "UeesDigital.Application",
-        "projectPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Application\\UeesDigital.Application.csproj",
-        "packagesPath": "C:\\Users\\Alejandro\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Application\\obj\\",
+        "projectPath": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Application\\UeesDigital.Application.csproj",
+        "packagesPath": "C:\\Users\\egran\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Alejandro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\egran\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -33,8 +33,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj": {
-                "projectPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj"
+              "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj": {
+                "projectPath": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj"
               }
             }
           }
@@ -349,20 +349,20 @@
         }
       }
     },
-    "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj": {
+    "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj",
         "projectName": "UeesDigital.Domain",
-        "projectPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj",
-        "packagesPath": "C:\\Users\\Alejandro\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Domain\\obj\\",
+        "projectPath": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj",
+        "packagesPath": "C:\\Users\\egran\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Alejandro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\egran\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -690,20 +690,20 @@
         }
       }
     },
-    "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Infrastructure\\UeesDigital.Infrastructure.csproj": {
+    "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Infrastructure\\UeesDigital.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Infrastructure\\UeesDigital.Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Infrastructure\\UeesDigital.Infrastructure.csproj",
         "projectName": "UeesDigital.Infrastructure",
-        "projectPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Infrastructure\\UeesDigital.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\Alejandro\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Infrastructure\\obj\\",
+        "projectPath": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Infrastructure\\UeesDigital.Infrastructure.csproj",
+        "packagesPath": "C:\\Users\\egran\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Alejandro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\egran\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -719,8 +719,8 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj": {
-                "projectPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj"
+              "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj": {
+                "projectPath": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj"
               }
             }
           }
@@ -1067,20 +1067,20 @@
         }
       }
     },
-    "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital\\UeesDigital.csproj": {
+    "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital\\UeesDigital.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital\\UeesDigital.csproj",
+        "projectUniqueName": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital\\UeesDigital.csproj",
         "projectName": "UeesDigital",
-        "projectPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital\\UeesDigital.csproj",
-        "packagesPath": "C:\\Users\\Alejandro\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital\\obj\\",
+        "projectPath": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital\\UeesDigital.csproj",
+        "packagesPath": "C:\\Users\\egran\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Alejandro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\egran\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -1096,14 +1096,14 @@
             "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Application\\UeesDigital.Application.csproj": {
-                "projectPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Application\\UeesDigital.Application.csproj"
+              "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Application\\UeesDigital.Application.csproj": {
+                "projectPath": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Application\\UeesDigital.Application.csproj"
               },
-              "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj": {
-                "projectPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj"
+              "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj": {
+                "projectPath": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj"
               },
-              "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Infrastructure\\UeesDigital.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Infrastructure\\UeesDigital.Infrastructure.csproj"
+              "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Infrastructure\\UeesDigital.Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Infrastructure\\UeesDigital.Infrastructure.csproj"
               }
             }
           }

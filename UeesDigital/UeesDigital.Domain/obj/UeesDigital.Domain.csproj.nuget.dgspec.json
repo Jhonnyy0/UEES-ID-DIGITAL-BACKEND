@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj": {}
+    "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj": {
+    "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj",
         "projectName": "UeesDigital.Domain",
-        "projectPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj",
-        "packagesPath": "C:\\Users\\Alejandro\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Alejandro\\Documents\\GitHub\\UEES-ID-DIGITAL-BACKEND\\UeesDigital\\UeesDigital.Domain\\obj\\",
+        "projectPath": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Domain\\UeesDigital.Domain.csproj",
+        "packagesPath": "C:\\Users\\egran\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\egran\\Documents\\Pruebas totales\\UeesDigital\\UeesDigital.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Alejandro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\egran\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
