@@ -104,17 +104,21 @@ builder.Services.AddControllers()
 
 builder.Services.AddOpenApi();
 
+// ── Servicio de correo electrónico ────────────────────────────────────────────
+builder.Services.AddScoped<UeesDigital.Domain.Interfaces.IEmailService,
+                            UeesDigital.Infrastructure.Services.EmailService>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("FrontendPolicy", policy =>
     {
         policy
             .WithOrigins(
-                "http://localhost:5173", 
-                "http://localhost:4173",  
-                "http://localhost:3000"   
+                "http://localhost:5173",
+                "http://localhost:4173",
+                "http://localhost:3000"
             )
-            .SetIsOriginAllowed(_ => true)  
+            .SetIsOriginAllowed(_ => true)
             .AllowAnyHeader()
             .AllowAnyMethod();
     });

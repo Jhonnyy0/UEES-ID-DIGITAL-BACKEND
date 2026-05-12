@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UeesDigital.Application.Services;
 using UeesDigital.Domain.Entities;
+using UeesDigital.Domain.Interfaces;
 using UeesDigital.DTOs;
 using UeesDigital.Infrastructure.Persistence;
 
@@ -15,11 +16,16 @@ public class TramitesController : ControllerBase
 {
     private readonly TramiteService _tramiteService;
     private readonly ApplicationDbContext _context;
+    private readonly IEmailService _emailService;
 
-    public TramitesController(TramiteService tramiteService, ApplicationDbContext context)
+    public TramitesController(
+        TramiteService tramiteService,
+        ApplicationDbContext context,
+        IEmailService emailService)
     {
         _tramiteService = tramiteService;
         _context = context;
+        _emailService = emailService;
     }
 
     [HttpGet]
@@ -79,10 +85,18 @@ public class TramitesController : ControllerBase
         try
         {
             var created = await _tramiteService.Add(tramite);
+
+            // Cargar datos completos para el correo y la respuesta
             var full = await _context.Tramites
                 .Include(t => t.Estudiante).ThenInclude(e => e.Carrera).ThenInclude(c => c.Facultad)
                 .Include(t => t.Horario).ThenInclude(h => h.FechaDisponible)
                 .FirstOrDefaultAsync(t => t.IdTramite == created.IdTramite);
+
+            // Enviar correo de confirmación al estudiante (sin await para no bloquear la respuesta)
+            if (full?.Estudiante?.Email is not null)
+            {
+                _ = EnviarCorreoConfirmacionAsync(full);
+            }
 
             return CreatedAtAction(nameof(GetById), new { id = created.IdTramite }, ToDto(full ?? created));
         }
@@ -95,7 +109,6 @@ public class TramitesController : ControllerBase
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<TramiteResponseDto>> Update(Guid id, UpdateTramiteRequestDto request)
     {
-        // ── CLAVE: leemos el estado ACTUAL con AsNoTracking para no contaminar el contexto
         var estadoActual = await _context.Tramites
             .AsNoTracking()
             .Where(t => t.IdTramite == id)
@@ -106,15 +119,12 @@ public class TramitesController : ControllerBase
 
         try
         {
-            // Ajuste de cupos ANTES de guardar el nuevo estado
             await AjustarCupos(
                 horarioAnteriorId: estadoActual.IdHorario,
                 horarioNuevoId: request.IdHorario,
                 estadoAnterior: estadoActual.Estado,
-                estadoNuevo: request.Estado
-            );
+                estadoNuevo: request.Estado);
 
-            // Actualizar el trámite directamente
             await _context.Tramites
                 .Where(t => t.IdTramite == id)
                 .ExecuteUpdateAsync(s => s
@@ -122,7 +132,6 @@ public class TramitesController : ControllerBase
                     .SetProperty(t => t.TipoTramite, request.TipoTramite)
                     .SetProperty(t => t.IdHorario, request.IdHorario));
 
-            // Retornar datos completos
             var full = await _context.Tramites
                 .Include(t => t.Estudiante).ThenInclude(e => e.Carrera).ThenInclude(c => c.Facultad)
                 .Include(t => t.Horario).ThenInclude(h => h.FechaDisponible)
@@ -147,7 +156,6 @@ public class TramitesController : ControllerBase
 
         if (tramite.Estado != EstadoTramite.Cancelado)
         {
-            // Devolver cupo
             await _context.HorariosDisponibles
                 .Where(h => h.IdHorario == tramite.IdHorario && h.CuposOcupados > 0)
                 .ExecuteUpdateAsync(s => s
@@ -162,7 +170,44 @@ public class TramitesController : ControllerBase
         return NoContent();
     }
 
-    // ── Lógica centralizada de cupos ─────────────────────────────────────────
+    // ── Envío de correo en background ────────────────────────────────────────
+    private async Task EnviarCorreoConfirmacionAsync(Tramite tramite)
+    {
+        try
+        {
+            var fecha = tramite.Horario?.FechaDisponible?.Fecha
+                .ToString("dd 'de' MMMM 'de' yyyy",
+                    new System.Globalization.CultureInfo("es-SV")) ?? "—";
+
+            var hora = tramite.Horario?.HoraInicio is DateTime hi
+                ? hi.ToString("h:mm tt", System.Globalization.CultureInfo.InvariantCulture)
+                : "—";
+
+            var tipoLabel = tramite.TipoTramite switch
+            {
+                TipoTramite.PrimeraVez => "Primera Vez",
+                TipoTramite.Reposicion => "Reposición",
+                TipoTramite.Modificacion => "Modificación",
+                _ => tramite.TipoTramite.ToString()
+            };
+
+            await _emailService.SendConfirmacionTramiteAsync(
+                destinatario: tramite.Estudiante!.Email,
+                nombreEstudiante: tramite.Estudiante.FullName,
+                codigoConfirmacion: tramite.CodigoConfirmacion,
+                tipoTramite: tipoLabel,
+                fecha: fecha,
+                hora: hora
+            );
+        }
+        catch (Exception ex)
+        {
+            // El correo falla silenciosamente para no afectar la respuesta al estudiante
+            Console.WriteLine($"[EmailService] Error al enviar correo: {ex.Message}");
+        }
+    }
+
+    // ── Lógica de cupos ───────────────────────────────────────────────────────
     private async Task AjustarCupos(
         int horarioAnteriorId, int horarioNuevoId,
         EstadoTramite estadoAnterior, EstadoTramite estadoNuevo)
@@ -173,7 +218,7 @@ public class TramitesController : ControllerBase
 
         if (anteriorActivo && !nuevoActivo)
         {
-            // Se cancela → devolver cupo al horario actual
+            // Cancelar → devolver cupo
             await _context.HorariosDisponibles
                 .Where(h => h.IdHorario == horarioAnteriorId && h.CuposOcupados > 0)
                 .ExecuteUpdateAsync(s => s
@@ -181,7 +226,7 @@ public class TramitesController : ControllerBase
         }
         else if (!anteriorActivo && nuevoActivo)
         {
-            // Se reactiva → descontar cupo del horario nuevo
+            // Reactivar → descontar cupo
             var horario = await _context.HorariosDisponibles
                 .FirstOrDefaultAsync(h => h.IdHorario == horarioNuevoId);
             if (horario != null && horario.CuposOcupados >= horario.CuposMaximos)
@@ -194,7 +239,7 @@ public class TramitesController : ControllerBase
         }
         else if (anteriorActivo && nuevoActivo && cambiaHorario)
         {
-            // Cambia de horario sin cancelar → devolver anterior, descontar nuevo
+            // Cambio de horario → devolver anterior, descontar nuevo
             await _context.HorariosDisponibles
                 .Where(h => h.IdHorario == horarioAnteriorId && h.CuposOcupados > 0)
                 .ExecuteUpdateAsync(s => s
@@ -210,7 +255,6 @@ public class TramitesController : ControllerBase
                 .ExecuteUpdateAsync(s => s
                     .SetProperty(h => h.CuposOcupados, h => h.CuposOcupados + 1));
         }
-        // Si anteriorActivo && nuevoActivo && !cambiaHorario → no cambian cupos
     }
 
     private static TramiteResponseDto ToDto(Tramite t) => new()
